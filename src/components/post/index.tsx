@@ -24,16 +24,16 @@ export function Posts({ post }: PostsProps) {
   return (
     <Container>
       <div>
-        <img src={post.userProfileImgUrl} alt='profile Image' />
+        <img src={post.userProfileImgUrl} alt='profile' />
         <main>
           <h2>{post.userName}</h2>
           <p>{post.comment}</p>
         </main>
       </div>
       <section>
-        <img src={Like} alt='profile Image' />
-        <img src={Share} alt='profile Image' />
-        <img src={Dots} alt='profile Image' />
+        <img src={Like} alt='Like button ' />
+        <img src={Share} alt='Share button ' />
+        <img src={Dots} alt='Bots button' />
       </section>
     </Container>
   )

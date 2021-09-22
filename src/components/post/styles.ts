@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const Container = styled.div`
   padding: 2rem;
-  margin: 1rem 3rem;
+  margin: 1rem 0rem;
   max-height: 10rem;
   overflow: hidden;
   border-bottom: 2px solid var(--gray);
@@ -22,6 +22,7 @@ export const Container = styled.div`
           max-height: 2.8rem;
           overflow: hidden;
           margin-top: 0.5rem;
+          line-height: 1.4rem;
       }
     }
   }

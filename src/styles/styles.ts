@@ -4,5 +4,4 @@ export const Container = styled.div`
     position: relative;
 `
 export const PostContainer = styled.div`
-
 `

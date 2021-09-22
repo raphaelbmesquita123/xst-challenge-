@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 //components
 import { Posts } from './components/post'
@@ -11,49 +12,61 @@ import { Container, PostContainer } from './styles/styles'
 import { api } from './services/api'
 
 //props
-// interface PostsProps2 {
-//   post: [
-//     {
-//       userName: string
-//       id: string
-//       postedOn: string
-//       comment: string
-//       userProfileImgUrl: string
-//       validated: boolean
-//     }
-//   ]
-// }
+interface PostProps {
+  userName: string
+  id: string
+  postedOn: string
+  comment: string
+  userProfileImgUrl: string
+  validated: boolean
+}
 
 export default function App() {
-  const [posts, setPosts] = useState([])
+  const [posts, setPosts] = useState<PostProps[]>([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
-
+  const [ totalOfPages, setTotalOfPages ] = useState(1)
+  console.log(totalOfPages)
   useEffect(() => {
-    api
-      .get(`/api/posts?page=${page}`)
-      .then((response) => {
-        const xxx = response.data.posts
-        
-        const validatedPosts = xxx.map((x) => {
-          if(x.validated) {
-            return x
-          }
+    console.log(posts.length)
+    // window.addEventListener('scroll', () => {
+    //   if (
+    //     window.innerHeight + window.scrollY >=
+    //     document.body.offsetHeight
+    //   ) {
+    //     setTimeout(() => {
+    //       setPage(page + 1)
+    //     }, 1500)
+    //   }
+    // })
+
+    async function getPosts() {
+      await api
+        .get(`/api/posts?page=${page}`)
+        .then((response) => {
+          console.log(response.data)
+          const validatedPostsArray: PostProps[] = []
+          response.data.posts.map((post: PostProps) => {
+            if (post.validated) {
+              return validatedPostsArray.push(post)
+            }
+          })
+          setTotalOfPages(Number(response.data.total_pages))
+          setPosts([...posts, ...validatedPostsArray])
+          setLoading(false)
         })
-        console.log(response.data.posts[0].validated)
-        setPosts(response.data.posts)
-        setLoading(false)
-      })
-      .catch((err) => {
-        throw err
-      })
+        .catch((err) => {
+          throw err
+        })
+    }
+
+    getPosts()
   }, [page])
 
   return (
     <Container>
       <GlobalStyle />
-      <h1>oi</h1>
-      {loading
+      {/* {loading
         ? 'loading'
         : posts.map((post) => {
             return (
@@ -61,8 +74,29 @@ export default function App() {
                 <Posts post={post} />
               </div>
             )
-          })}
-      <PostContainer></PostContainer>
+          })} */}
+      {loading ? (
+        ''
+      ) : (
+        <PostContainer>
+          <InfiniteScroll
+            dataLength={page}
+            next={() => setPage(page + 1)}
+            hasMore={page === 5 ? false : true}
+            loader={<h4>Loading...</h4>}
+          >
+            {posts.map((post) => {
+              return (
+                <div key={post.id}>
+                  <Posts post={post} />
+                </div>
+              )
+            })}
+          </InfiniteScroll>
+
+        </PostContainer>
+      )}
+      {/* <PostContainer></PostContainer> */}
     </Container>
   )
 }
