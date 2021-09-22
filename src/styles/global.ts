@@ -19,13 +19,13 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   body, input, button{
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Inter', sans-serif;
     font-weight: 400;
     letter-spacing: 1px;
   }
 
   body{
-    background-color: var(--gray);
+    background-color: var(--white);
   }
 
   h1, h2, h3, h4, h5, h6, strong, small{
@@ -37,11 +37,6 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   :root{
-    --blue-900: #1B264F;
-    --blue-700: #1C2854;
-    --blue-500: #274690;
-    --blue-100: #1375BB;
-    --blue-50: #44A9DE;
     --gray: #EBEBEB;
     --white: #ffffff
   }
