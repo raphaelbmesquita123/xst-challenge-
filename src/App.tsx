@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import InfiniteScroll from 'react-infinite-scroll-component'
 
 //components
@@ -22,37 +22,22 @@ interface PostProps {
 }
 
 export default function App() {
-  const [posts, setPosts] = useState<PostProps[]>([])
+  const [allPosts, setAllPosts] = useState<PostProps[]>([])
   const [loading, setLoading] = useState(true)
   const [page, setPage] = useState(1)
-  const [ totalOfPages, setTotalOfPages ] = useState(1)
-  console.log(totalOfPages)
-  useEffect(() => {
-    console.log(posts.length)
-    // window.addEventListener('scroll', () => {
-    //   if (
-    //     window.innerHeight + window.scrollY >=
-    //     document.body.offsetHeight
-    //   ) {
-    //     setTimeout(() => {
-    //       setPage(page + 1)
-    //     }, 1500)
-    //   }
-    // })
 
+  useEffect(() => {
     async function getPosts() {
       await api
         .get(`/api/posts?page=${page}`)
         .then((response) => {
-          console.log(response.data)
           const validatedPostsArray: PostProps[] = []
           response.data.posts.map((post: PostProps) => {
             if (post.validated) {
               return validatedPostsArray.push(post)
             }
           })
-          setTotalOfPages(Number(response.data.total_pages))
-          setPosts([...posts, ...validatedPostsArray])
+          setAllPosts([...allPosts, ...validatedPostsArray])
           setLoading(false)
         })
         .catch((err) => {
@@ -66,15 +51,7 @@ export default function App() {
   return (
     <Container>
       <GlobalStyle />
-      {/* {loading
-        ? 'loading'
-        : posts.map((post) => {
-            return (
-              <div>
-                <Posts post={post} />
-              </div>
-            )
-          })} */}
+
       {loading ? (
         ''
       ) : (
@@ -85,7 +62,7 @@ export default function App() {
             hasMore={page === 5 ? false : true}
             loader={<h4>Loading...</h4>}
           >
-            {posts.map((post) => {
+            {allPosts.map((post) => {
               return (
                 <div key={post.id}>
                   <Posts post={post} />
@@ -93,7 +70,6 @@ export default function App() {
               )
             })}
           </InfiniteScroll>
-
         </PostContainer>
       )}
       {/* <PostContainer></PostContainer> */}
