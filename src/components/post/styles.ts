@@ -6,6 +6,8 @@ export const Container = styled.div`
   max-height: 10rem;
   overflow: hidden;
   border-bottom: 2px solid var(--gray);
+  max-width: 1080px;
+  margin: 0 auto;
   div {
     display: flex;
     img {
