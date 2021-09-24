@@ -23,4 +23,4 @@ yarn start
 https://xst-challenge.vercel.app/
 
 # Home Page
-![HOME PAGE](.github/innovationcast.png) 
+![HOME PAGE](.github/challenge.png) 
