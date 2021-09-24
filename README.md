@@ -20,7 +20,7 @@ REACT_APP_GITHUB_URL=http://localhost:3000/
 yarn start
 ```
 # Demo
-https://innovationcast-challenge.vercel.app/
+https://xst-challenge.vercel.app/
 
 # Home Page
 ![HOME PAGE](.github/innovationcast.png) 
